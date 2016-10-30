@@ -1,3 +1,10 @@
+create database purgePlus;
+
+create user 'purgeu'@'localhost' identified by 'purgepass';
+
+grant all privileges on purgePlus.* to 'purgeu'@'%';
+
+
 /* pruges
 *  used to purge files older than retention number of days
 */
@@ -8,7 +15,9 @@ create table purges (
   retentionDays int,
   enabled bit,
   dateLastMaintained datetime
-)
+);
+/* data */
+insert into purges values(1,'/var/log/purgeTest/',1,2,1,now());
 
 /* purgeFiles
 * iles and/or wildcard extentions assigned to a purge
@@ -18,8 +27,14 @@ create table purgeFiles (
   purgeId int not null,
   purgeFileId int not null,
   fileName varchar(2000)
+);
 
-)
+/* data */
+insert into purgeFiles values (1,1,'test1.log');
+insert into purgeFiles values (1,2,'test2.log');
+insert into purgeFiles values (1,4,'test4.log');
+insert into purgeFiles values (1,5,'*.txt');
+
 
 /* purgeExceptions
 * fileNames to be ecplicitly retained, takes precedence over wildcard and named purge.
@@ -29,7 +44,13 @@ create table purgeExceptions (
   purgeId int not null,
   purgeExceptionId int not null,
   fileName varchar(2000)
-)
+);
+
+/* data */
+insert into purgeExceptions values (1,1,'test3.txt');
+insert into purgeExceptions values (1,2,'test5.txt');
+
+
 
 /* systems
 *  defines OS that can be managed
@@ -40,4 +61,8 @@ create table purgeExceptions (
 create table systems (
   id int not null auto_increment primary key,
   systemName varchar(30)
-)
+);
+
+/* data */
+insert into systems values (1,'linux');
+insert into systems values (2,'windows');
