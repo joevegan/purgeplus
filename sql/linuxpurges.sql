@@ -30,6 +30,3 @@ concat(p.dir,pe.fileName) as excep
     left join purgeExceptions pe on pe.purgeId = p.id
       where systemId = 1
       and enabled = 1;
-
-
-      GROUP_CONCAT(cate_id)
